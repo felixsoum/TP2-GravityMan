@@ -1,10 +1,11 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Timeline;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] string nextLevelName;
+
     private Vector3 originalPosition;
     Camera playerCamera;
     SpriteRenderer spriteRenderer;
@@ -13,9 +14,20 @@ public class Player : MonoBehaviour
 
     internal void CollectFruit()
     {
+        // Après avoir collecté 5 fruits
         if (++fruitCounter == 5)
         {
-            FindAnyObjectByType<TMP_Text>().color = Color.yellow;
+            // Si la variable nextLevelName est vide
+            if (string.IsNullOrEmpty(nextLevelName))
+            {
+                // Fin du jeu
+                FindAnyObjectByType<TMP_Text>().color = Color.yellow;
+            }
+            else
+            {
+                // Sinon aller à une autre scène
+                SceneManager.LoadScene(nextLevelName);
+            }
         }
     }
 
